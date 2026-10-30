@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kairos ご提案 | WEBシステム開発支援 for テックコアー様</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#0A1420;
+    --navy-mid:#122034;
+    --blueprint:#1F3A5A;
+    --cyan:#4FD8C9;
+    --amber:#E0914E;
+    --paper:#F3F1EA;
+    --ink:#14202E;
+    --mist:#9FB1BF;
+    --line: rgba(79,216,201,0.16);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Noto Sans JP', sans-serif;
+    background:var(--navy-deep);
+    color:var(--paper);
+    line-height:1.85;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.mono{
+    font-family:'Space Grotesk','Noto Sans JP',sans-serif;
+  }
+  .tag-mono{
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:0.08em;
+  }
+  a{color:inherit;}
+  img{display:none;}
+
+  /* ===== Circuit background ===== */
+  .circuit-bg{
+    position:relative;
+    background:
+      linear-gradient(90deg, var(--line) 1px, transparent 1px),
+      linear-gradient(var(--line) 1px, transparent 1px);
+    background-size:44px 44px;
+    background-color:var(--navy-deep);
+  }
+  .circuit-bg::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(79,216,201,0.35) 2px, transparent 2.5px),
+      radial-gradient(circle at 85% 15%, rgba(224,145,78,0.4) 2px, transparent 2.5px),
+      radial-gradient(circle at 60% 75%, rgba(79,216,201,0.3) 2px, transparent 2.5px),
+      radial-gradient(circle at 30% 85%, rgba(79,216,201,0.25) 2px, transparent 2.5px),
+      radial-gradient(circle at 95% 60%, rgba(224,145,78,0.3) 2px, transparent 2.5px);
+    pointer-events:none;
+  }
+
+  .wrap{
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  /* ===== HERO ===== */
+  .hero{
+    position:relative;
+    padding:120px 0 100px;
+    overflow:hidden;
+  }
+  .hero .wrap{position:relative; z-index:2;}
+  .kairos-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    border:1px solid rgba(79,216,201,0.4);
+    padding:7px 16px;
+    border-radius:999px;
+    font-size:12px;
+    letter-spacing:0.15em;
+    color:var(--cyan);
+    background:rgba(79,216,201,0.06);
+    margin-bottom:34px;
+  }
+  .kairos-badge::before{
+    content:"";
+    width:7px;height:7px;border-radius:50%;
+    background:var(--cyan);
+    box-shadow:0 0 8px var(--cyan);
+  }
+  .hero h1{
+    font-size:clamp(32px, 5.2vw, 58px);
+    font-weight:700;
+    line-height:1.45;
+    letter-spacing:-0.01em;
+    color:#fff;
+    margin-bottom:28px;
+  }
+  .hero h1 .accent{
+    color:var(--cyan);
+    position:relative;
+  }
+  .hero h1 .accent2{
+    color:var(--amber);
+  }
+  .hero p.lead{
+    font-size:16px;
+    color:var(--mist);
+    max-width:620px;
+    margin-bottom:46px;
+  }
+  .hero-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+  }
+  .meta-chip{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12.5px;
+    border:1px solid var(--blueprint);
+    padding:9px 16px;
+    border-radius:4px;
+    color:var(--mist);
+    background:rgba(255,255,255,0.02);
+  }
+  .meta-chip b{color:var(--paper); font-weight:500;}
+
+  .schema-line{
+    position:absolute;
+    right:-5%;
+    top:0;
+    bottom:0;
+    width:50%;
+    z-index:1;
+    opacity:0.9;
+  }
+  .node-box{
+    position:absolute;
+    border:1px solid rgba(79,216,201,0.35);
+    border-radius:6px;
+    background:rgba(18,32,52,0.5);
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--cyan);
+    padding:8px 12px;
+    backdrop-filter:blur(2px);
+  }
+  .node-box.amber{color:var(--amber); border-color:rgba(224,145,78,0.4);}
+  .n1{top:6%; right:18%;}
+  .n2{top:32%; right:4%;}
+  .n3{top:56%; right:24%;}
+  .n4{top:78%; right:2%;}
+  @media(max-width:860px){ .schema-line{display:none;} }
+
+  /* ===== SECTION COMMON ===== */
+  section{
+    position:relative;
+    padding:90px 0;
+  }
+  .section-tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.2em;
+    color:var(--cyan);
+    margin-bottom:16px;
+    display:block;
+  }
+  .section-title{
+    font-size:clamp(24px,3.4vw,36px);
+    font-weight:700;
+    margin-bottom:28px;
+    color:#fff;
+  }
+
+  /* ===== UNDERSTANDING ===== */
+  .understand{
+    background:var(--navy-mid);
+    border-top:1px solid rgba(79,216,201,0.1);
+    border-bottom:1px solid rgba(79,216,201,0.1);
+  }
+  .understand-grid{
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:60px;
+    align-items:start;
+  }
+  @media(max-width:800px){ .understand-grid{grid-template-columns:1fr; gap:36px;} }
+  .understand p{
+    color:var(--mist);
+    font-size:15.5px;
+    margin-bottom:18px;
+  }
+  .quote-block{
+    border-left:3px solid var(--amber);
+    padding:22px 26px;
+    background:rgba(224,145,78,0.05);
+    border-radius:0 10px 10px 0;
+    font-size:15.5px;
+    color:#EADFCF;
+  }
+  .req-list{
+    list-style:none;
+  }
+  .req-list li{
+    display:flex;
+    gap:14px;
+    padding:16px 0;
+    border-bottom:1px dashed rgba(159,177,191,0.25);
+    font-size:14.5px;
+    color:var(--paper);
+  }
+  .req-list li:last-child{border-bottom:none;}
+  .req-list .idx{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--cyan);
+    min-width:30px;
+  }
+
+  /* ===== VALUES ===== */
+  .values{background:var(--navy-deep);}
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:22px;
+    margin-top:20px;
+  }
+  @media(max-width:900px){ .card-grid{grid-template-columns:repeat(2,1fr);} }
+  @media(max-width:620px){ .card-grid{grid-template-columns:1fr;} }
+  .card{
+    background:linear-gradient(160deg, rgba(31,58,90,0.5), rgba(18,32,52,0.5));
+    border:1px solid rgba(79,216,201,0.15);
+    border-radius:14px;
+    padding:30px 26px;
+    position:relative;
+    overflow:hidden;
+    transition:transform .25s ease, border-color .25s ease;
+  }
+  .card:hover{
+    transform:translateY(-4px);
+    border-color:rgba(79,216,201,0.5);
+  }
+  .card::after{
+    content:"";
+    position:absolute;
+    top:-40%; right:-40%;
+    width:140px;height:140px;
+    background:radial-gradient(circle, rgba(79,216,201,0.14), transparent 70%);
+  }
+  .card .num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--amber);
+    letter-spacing:0.1em;
+    margin-bottom:16px;
+    display:block;
+  }
+  .card h3{
+    font-size:18.5px;
+    color:#fff;
+    margin-bottom:12px;
+    font-weight:600;
+  }
+  .card p{
+    font-size:14px;
+    color:var(--mist);
+  }
+  .card.wide{grid-column:span 1;}
+
+  /* ===== SCHEDULE ===== */
+  .schedule{
+    background:var(--navy-mid);
+    border-top:1px solid rgba(79,216,201,0.1);
+  }
+  .timeline{
+    margin-top:50px;
+    display:flex;
+    position:relative;
+    gap:0;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute;
+    top:17px;
+    left:0; right:0;
+    height:2px;
+    background:repeating-linear-gradient(90deg, var(--cyan) 0 6px, transparent 6px 12px);
+    opacity:0.5;
+  }
+  .t-step{
+    flex:1;
+    text-align:left;
+    padding-right:14px;
+    position:relative;
+  }
+  .t-dot{
+    width:14px;height:14px;
+    border-radius:50%;
+    background:var(--navy-mid);
+    border:2px solid var(--cyan);
+    margin-bottom:22px;
+    position:relative;
+    z-index:2;
+  }
+  .t-step:nth-child(even) .t-dot{border-color:var(--amber);}
+  .t-step .t-phase{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--cyan);
+    margin-bottom:6px;
+    letter-spacing:0.08em;
+  }
+  .t-step h4{
+    font-size:15px;
+    color:#fff;
+    margin-bottom:8px;
+    font-weight:600;
+  }
+  .t-step p{
+    font-size:12.8px;
+    color:var(--mist);
+  }
+  @media(max-width:900px){
+    .timeline{flex-direction:column; gap:30px;}
+    .timeline::before{display:none;}
+    .t-step{padding-right:0; padding-left:26px; border-left:2px dashed rgba(79,216,201,0.4);}
+    .t-dot{position:absolute; left:-8px; top:-2px;}
+  }
+
+  /* ===== CLOSING ===== */
+  .closing{
+    background:
+      linear-gradient(180deg, var(--navy-deep), #081019);
+    text-align:center;
+    padding:110px 0 100px;
+    position:relative;
+  }
+  .closing .wrap{position:relative; z-index:2;}
+  .closing h2{
+    font-size:clamp(26px,4vw,40px);
+    color:#fff;
+    margin-bottom:20px;
+    font-weight:700;
+  }
+  .closing p{
+    color:var(--mist);
+    max-width:560px;
+    margin:0 auto 42px;
+    font-size:15.5px;
+  }
+  .cta-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    background:linear-gradient(90deg, var(--cyan), #8fe9df);
+    color:#071017;
+    font-weight:700;
+    padding:18px 38px;
+    border-radius:8px;
+    text-decoration:none;
+    font-size:15.5px;
+    letter-spacing:0.02em;
+    box-shadow:0 10px 30px rgba(79,216,201,0.25);
+    transition:transform .2s ease;
+  }
+  .cta-btn:hover{transform:translateY(-3px);}
+  .cta-note{
+    margin-top:28px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--mist);
+  }
+
+  footer{
+    text-align:center;
+    padding:30px 0;
+    font-size:12px;
+    color:var(--mist);
+    background:#071017;
+    letter-spacing:0.08em;
+  }
+  footer .mark{color:var(--cyan); font-family:'JetBrains Mono',monospace;}
+</style>
+</head>
+<body>
+
+<section class="hero circuit-bg">
+  <div class="schema-line">
+    <div class="node-box n1 tag-mono">EC2 / ECS</div>
+    <div class="node-box n2 amber tag-mono">def handler():</div>
+    <div class="node-box n3 tag-mono">class Service</div>
+    <div class="node-box n4 amber tag-mono">RDS / S3</div>
+  </div>
+  <div class="wrap">
+    <span class="kairos-badge">KAIROS PROPOSAL — WEB SYSTEM DEVELOPMENT</span>
+    <h1>設計図のないシステムは、<br>いつか必ず軋む。<br><span class="accent">要件定義</span>から<span class="accent2">リリース</span>まで、<br>一枚の図面で描き切る。</h1>
+    <p class="lead">
+      株式会社テックコアー様「WEBシステム開発支援」案件へ、Web制作・システム開発チーム Kairos よりご提案いたします。
+      Java / Python による開発と AWS インフラの両輪を、単発の作業ではなく中長期の設計責任として担います。
+    </p>
+    <div class="hero-meta">
+      <div class="meta-chip">予算 <b>¥440,000〜 / 月</b></div>
+      <div class="meta-chip">稼働 <b>一般ビジネスタイム・土日祝休</b></div>
+      <div class="meta-chip">体制 <b>国内完結・メイン対応</b></div>
+      <div class="meta-chip">範囲 <b>要件定義〜設計〜構築〜リリース</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="understand">
+  <div class="wrap">
+    <span class="section-tag">// 01. UNDERSTANDING</span>
+    <h2 class="section-title">この募集の行間を、読みました。</h2>
+    <div class="understand-grid">
+      <div>
+        <p>
+          今回の募集は、単なる「手の空いたエンジニアを1人アサインしたい」という話ではないと理解しています。
+          AWS環境の設計構築から、Webアプリの要件定義・開発・リリースまでを通しで任せられる、
+          <strong>中長期で信頼できるメイン担当</strong>を探されている——そう読み取りました。
+        </p>
+        <p>
+          さらに「海外NG」「副業NG」「国内からのアクセス限定」といった条件は、
+          情報セキュリティへの意識の高さの裏返しです。技術力だけでなく、
+          <strong>体制・運用ルールへの誠実さ</strong>そのものが評価軸になっている案件だと考えています。
+        </p>
+        <div class="quote-block">
+          「スムーズな連絡が取れること」「メインの案件として対応可能なこと」——
+          これは技術要件以上に、<b>一緒に長く開発を回していけるか</b>という問いだと受け止めています。
+        </div>
+      </div>
+      <ul class="req-list">
+        <li><span class="idx">01</span><span>Java / Python での実装経験と、AWS（またはオンプレ）でのインフラ構築経験</span></li>
+        <li><span class="idx">02</span><span>要件定義から詳細設計までを一気通貫で担える体制</span></li>
+        <li><span class="idx">03</span><span>一般ビジネスタイムでの安定稼働・即日〜長期対応</span></li>
+        <li><span class="idx">04</span><span>国内からのアクセスに限定したセキュアな作業環境</span></li>
+        <li><span class="idx">05</span><span>日本語での高度なビジネスコミュニケーション</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="values circuit-bg">
+  <div class="wrap">
+    <span class="section-tag">// 02. WHAT KAIROS BRINGS</span>
+    <h2 class="section-title">Kairosが設計図に落とし込める価値</h2>
+    <div class="card-grid">
+      <div class="card">
+        <span class="num">VALUE / 01</span>
+        <h3>Java × Python デュアル開発体制</h3>
+        <p>バックエンドの業務ロジックはJavaで堅牢に、データ処理や自動化・運用スクリプトはPythonで機動的に。1チームで両言語を扱えるため、技術選定の都度ベンダーを変える必要がありません。</p>
+      </div>
+      <div class="card">
+        <span class="num">VALUE / 02</span>
+        <h3>AWS環境の設計・構築</h3>
+        <p>EC2 / ECS / RDS / S3 を軸としたインフラ設計から、オンプレミス構成を踏まえた移行設計まで対応。コスト・可用性・セキュリティのバランスを図面として提示します。</p>
+      </div>
+      <div class="card">
+        <span class="num">VALUE / 03</span>
+        <h3>要件定義〜リリースの一気通貫</h3>
+        <p>「作る人」で終わらせず、要件のヒアリング・詳細設計・実装・テスト・リリースまでを一つの責任として引き受けます。工程間の情報ロスを最小化します。</p>
+      </div>
+      <div class="card">
+        <span class="num">VALUE / 04</span>
+        <h3>国内完結・単一窓口の安心感</h3>
+        <p>作業者・連絡窓口ともに国内在住。副業ではなくメイン業務として対応し、日本語でのスムーズな報連相を徹底します。セキュリティポリシーにも準拠可能です。</p>
+      </div>
+      <div class="card">
+        <span class="num">VALUE / 05</span>
+        <h3>中長期の運用パートナーシップ</h3>
+        <p>リリース後の改修・保守・運用設計も見据え、単発の受発注ではなく「育てていくシステム」として長期で伴走します。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="schedule">
+  <div class="wrap">
+    <span class="section-tag">// 03. HOW WE WORK</span>
+    <h2 class="section-title">進め方のイメージ</h2>
+    <div class="timeline">
+      <div class="t-step">
+        <div class="t-dot"></div>
+        <div class="t-phase">STEP 01</div>
+        <h4>ヒアリング</h4>
+        <p>現状の環境・既存システム・課題感をすり合わせ、対応範囲と優先度を確認します。</p>
+      </div>
+      <div class="t-step">
+        <div class="t-dot"></div>
+        <div class="t-phase">STEP 02</div>
+        <h4>要件定義・設計</h4>
+        <p>Webアプリの要件定義書とAWS構成設計を作成。詳細設計まで落とし込みます。</p>
+      </div>
+      <div class="t-step">
+        <div class="t-dot"></div>
+        <div class="t-phase">STEP 03</div>
+        <h4>環境構築・実装</h4>
+        <p>AWS環境の構築と並行してJava / Pythonでの実装を進行。定期報告で進捗を可視化します。</p>
+      </div>
+      <div class="t-step">
+        <div class="t-dot"></div>
+        <div class="t-phase">STEP 04</div>
+        <h4>テスト・リリース</h4>
+        <p>結合テスト・受け入れ確認を経て本番リリース。ビジネスタイム内で確実に実施します。</p>
+      </div>
+      <div class="t-step">
+        <div class="t-dot"></div>
+        <div class="t-phase">STEP 05</div>
+        <h4>運用・中長期伴走</h4>
+        <p>リリース後の保守・改修・追加開発にも継続対応し、月次での状況共有を行います。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="closing circuit-bg">
+  <div class="wrap">
+    <span class="section-tag">// 04. NEXT ACTION</span>
+    <h2>まずは、現状の環境を見せてください。</h2>
+    <p>
+      要件定義書やインフラ構成がまだ固まっていない段階でも構いません。
+      テックコアー様の目指すシステム像をお聞きし、Kairosとして実現可能な設計図をご提示します。
+    </p>
+    <a href="#" class="cta-btn">ご相談・お問い合わせはこちら →</a>
+    <div class="cta-note">KAIROS — WEB制作・システム開発チーム</div>
+  </div>
+</section>
+
+<footer>
+  <span class="mark">&lt;/&gt;</span> Kairos — Proposal for テックコアー様「WEBシステム開発支援」
+</footer>
+
+</body>
+</html>
